@@ -1,30 +1,52 @@
-import { Pool, View } from './logic'
+/// <reference types="aplrenderer" />
+
+class View {
+  element: Element;
+  viewport: AplRenderer.Viewport;
+
+  constructor(element: Element, viewport: AplRenderer.Viewport) {
+    this.viewport = viewport;
+    this.element = element;
+  }
+
+  clear() {
+    while (this.element.firstChild) {
+      // @ts-ignore
+      this.element.removeChild(this.element.lastChild);
+    }
+  }
+}
 
 interface UpdateFiles {
   kind: "updatefiles";
   files: string[];
 }
 
-type Msg = UpdateFiles
+interface ClearViews {
+  kind: "clearviews";
+}
 
-export default class Model {
+type Msg = UpdateFiles | ClearViews;
+
+class Model {
   files: string[]
-  json: object[]
-  pool: Pool;
+  views: View[]
 
-  constructor(pool: Pool) {
+  constructor(views: View[]) {
     this.files = [];
-    this.json = []
-
-    this.pool = pool;
+    this.views = views;
   }
 
   update(msg: Msg) {
     switch(msg.kind) {
       case "updatefiles":
         this.files = msg.files;
+      case "clearviews":
+        this.views.forEach(view => view.clear());
     }
 
     console.log(this);
   }
 }
+
+export { Model, View };

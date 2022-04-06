@@ -1,8 +1,8 @@
 /// <reference types="aplrenderer" />
 
 import Api from './api';
-import Model from './model';
-import { Pool, View, VIEWPORTS } from './logic';
+import { Model, View } from './model';
+import { VIEWPORTS } from './apl';
 import dom from './dom';
 
 
@@ -77,11 +77,11 @@ function getFiles(event: Event): string[] {
   return filestr.split(/\s/);
 }
 
-async function renderFiles(pool: Pool, docs: object[]) {
-  docs.forEach(async (doc) => {
-    const view = pool.next();
-    await render(view, JSON.stringify(doc));
-  });
+async function renderFiles(views: View[], docs: object[]) {
+  const length = Math.min(views.length, docs.length);
+  for(let i = 0; i < length; i++) {
+    await render(views[i], JSON.stringify(docs[i]));
+  }
 }
 
 async function render(view: View, apl: string) {
@@ -100,24 +100,27 @@ async function update(model: Model) {
 
   const objects = contents.filter(i => !Api.isError(i));
   const errors = contents.filter(Api.isError);
-
   // TODO: do something with errors
 
-  model.pool.clear();
+  model.update({kind:"clearviews"});
 
-  await renderFiles(model.pool, objects)
+  await renderFiles(model.views, objects)
 }
 
+
 function main() {
-  const viewport = VIEWPORTS.HUB_ROUND_SMALL;
-  
   const root = dom.getElementOrThrow('#root');
-  const makeViewElement = () => {
+  const makeViewElement = (viewport: AplRenderer.Viewport) => {
     const div = makeDiv(viewport);
     root.append(div);
     return div;
   }
-  const model = new Model(new Pool(viewport, makeViewElement))
+
+  const views = Object
+    .entries(VIEWPORTS)
+    .map(([key, viewport]) => new View(makeViewElement(viewport), viewport))
+
+  const model = new Model(views);
 
   const input = dom.getElementOrThrow('#input');
   input.addEventListener('change', async (event: Event) => { 
@@ -125,7 +128,7 @@ function main() {
   });
 
   const clearButton = dom.getElementOrThrow('#clear');
-  clearButton.addEventListener('click', () => model.pool.clear());
+  clearButton.addEventListener('click', () => model.update({kind:"clearviews"}));
 
   const updateButton = dom.getElementOrThrow('#update');
   updateButton.addEventListener('click', () => update(model));
