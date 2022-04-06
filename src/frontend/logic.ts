@@ -60,13 +60,27 @@ const VIEWPORTS = {
     width: 480,
     dpi: 160,
   },
+
   HUB_LANDSCAPE_SMALL: {
     isRound: false,
     height: 480,
     width: 960,
     dpi: 160,
+  },
 
-  }
+  HUB_LANDSCAPE_MEDIUM: {
+    isRound: false,
+    height: 600,
+    width: 1024,
+    dpi: 160,
+  },
+
+  HUB_LANDSCAPE_LARGE: {
+    isRound: false,
+    height: 800,
+    width: 1280,
+    dpi: 160,
+  },
 }
 
 export { Pool, View, VIEWPORTS };
