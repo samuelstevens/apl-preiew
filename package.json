@@ -1,0 +1,19 @@
+{
+  "name": "apl-preview",
+  "version": "1.0.0",
+  "description": "Preview APL documents easily.",
+  "scripts": {
+    "start": "parcel",
+    "build": "npx tsc && parcel build"
+  },
+  "keywords": [],
+  "author": "Samuel Stevens",
+  "license": "ISC",
+  "dependencies": {},
+  "source": "src/index.html",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "devDependencies": {
+    "parcel": "latest",
+    "typescript": "^4.6.3"
+  }
+}
