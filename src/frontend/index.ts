@@ -1,4 +1,4 @@
-/// <reference types="AplRenderer" />
+/// <reference types="aplrenderer" />
 
 import Api from './api';
 import Model from './model';
@@ -100,6 +100,8 @@ async function update(model: Model) {
 
   const objects = contents.filter(i => !Api.isError(i));
   const errors = contents.filter(Api.isError);
+
+  // TODO: do something with errors
 
   model.pool.clear();
 

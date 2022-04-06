@@ -1,4 +1,4 @@
-/// <reference types="AplRenderer" />
+/// <reference types="aplrenderer" />
 
 class View {
   element: Element;
