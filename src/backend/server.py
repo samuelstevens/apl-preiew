@@ -31,6 +31,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-type", "application/json")
         self.send_header("Content-Length", len(jsonb))
+        self.end_headers()
 
         self.wfile.write(jsonb)
 
@@ -69,7 +70,7 @@ def make_parser():
     )
     parser.add_argument(
         "--port",
-        default=8000,
+        default=PORT,
         type=int,
         help="Specify alternate port",
     )

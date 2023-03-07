@@ -1,0 +1,26 @@
+{
+  "type": "APL",
+  "version": "2023.1",
+  "import": [
+    {
+      "name": "alexa-layouts",
+      "version": "1.6.0"
+    }
+  ],
+  "mainTemplate": {
+    "items": [
+      {
+        "type": "Container",
+        "height": "100vh",
+        "items": [
+          {
+            "type": "AlexaHeadline",
+            "primaryText": "hello world",
+            "secondaryText": "hello world",
+            "footerHintText": "hello world"
+          }
+        ]
+      }
+    ]
+  }
+}
